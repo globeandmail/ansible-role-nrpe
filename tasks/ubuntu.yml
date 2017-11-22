@@ -1,0 +1,25 @@
+---
+- name: Install NRPE server
+  apt:
+    name: "nagios-nrpe-server"
+    state: "present"
+    update_cache: 'yes'
+
+- name: Install /etc/nagios/nrpe.cfg
+    copy:
+      src: "{{ ansible_role_nrpe_cfg_file }}"
+      dest: "/etc/nagios/nrpe.cfg"
+      mode: 0644
+      owner: "root"
+      group: "root"
+  when: ansible_role_nrpe_cfg_file is defined
+
+- name: Install files to /etc/nagios/nrpe.d/
+    copy:
+      src: "{{ item }}"
+      dest: "/etc/nagios/nrpe.d/{{ item|basename }}"
+      mode: 0644
+      owner: "root"
+      group: "root"
+  with_fileglob: "{{ ansible_role_nrpe_cfg_d }}/*"
+  when: ansible_role_nrpe_cfg_d is defined
