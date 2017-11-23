@@ -15,11 +15,11 @@
   when: ansible_role_nrpe_cfg_file is defined
 
 - name: Install files to /etc/nagios/nrpe.d/
-    copy:
-      src: "{{ item }}"
-      dest: "/etc/nagios/nrpe.d/{{ item|basename }}"
-      mode: 0644
-      owner: "root"
-      group: "root"
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/nagios/nrpe.d/{{ item|basename }}"
+    mode: 0644
+    owner: "root"
+    group: "root"
   with_fileglob: "{{ ansible_role_nrpe_cfg_d }}/*"
   when: ansible_role_nrpe_cfg_d is defined
