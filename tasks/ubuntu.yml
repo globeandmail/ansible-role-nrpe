@@ -13,6 +13,7 @@
     owner: "root"
     group: "root"
   when: ansible_role_nrpe_cfg_file is defined
+  register: ansible_role_nrpe_cfgfile_installed
 
 - name: Install files to /etc/nagios/nrpe.d/
   copy:
@@ -23,3 +24,11 @@
     group: "root"
   with_fileglob: "{{ ansible_role_nrpe_cfg_d }}/*"
   when: ansible_role_nrpe_cfg_d is defined
+  register: ansible_role_nrpe_cfgd_installed
+
+- name: Enable & (re)start NRPE
+  service:
+    name: 'nagios-nrpe-server'
+    state: 'restarted'
+    enabled: 'yes'
+  when: ansible_role_nrpe_cfgfile_installed.changed or ansible_role_nrpe_cfgd_installed.changed
