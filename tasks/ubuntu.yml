@@ -6,12 +6,12 @@
     update_cache: 'yes'
 
 - name: Install /etc/nagios/nrpe.cfg
-    copy:
-      src: "{{ ansible_role_nrpe_cfg_file }}"
-      dest: "/etc/nagios/nrpe.cfg"
-      mode: 0644
-      owner: "root"
-      group: "root"
+  copy:
+    src: "{{ ansible_role_nrpe_cfg_file }}"
+    dest: "/etc/nagios/nrpe.cfg"
+    mode: 0644
+    owner: "root"
+    group: "root"
   when: ansible_role_nrpe_cfg_file is defined
 
 - name: Install files to /etc/nagios/nrpe.d/
